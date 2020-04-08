@@ -10,6 +10,11 @@
     "name": "Saman Hosseini",
     "email": "saman@modernice.ltd"
   },
+  "homepage": "https://github.com/bounoable/calendair",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bounoable/calendair.git"
+  },
   "files": ["dist"],
   "scripts": {
     "build": "rimraf ./dist && rollup -c rollup.config.js"

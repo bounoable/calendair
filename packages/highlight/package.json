@@ -6,6 +6,11 @@
     "name": "Saman Hosseini",
     "email": "saman@modernice.ltd"
   },
+  "homepage": "https://github.com/bounoable/calendair",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bounoable/calendair.git"
+  },
   "main": "dist/booking.common.js",
   "browser": "dist/booking.umd.js",
   "unpkg": "dist/booking.umd.js",
