@@ -1,0 +1,32 @@
+{
+  "name": "calendair",
+  "version": "0.1.0",
+  "main": "dist/index.common.js",
+  "module": "dist/index.js",
+  "browser": "dist/index.umd.js",
+  "unpkg": "dist/index.umd.js",
+  "license": "MIT",
+  "author": {
+    "name": "Saman Hosseini",
+    "email": "saman@modernice.ltd"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "rimraf ./dist && rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "@calendair/core": "0.1.0",
+    "vue": "^3.0.0-alpha.11"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-typescript": "^4.0.0",
+    "autoprefixer": "^9.7.6",
+    "cssnano": "^4.1.10",
+    "rimraf": "^3.0.2",
+    "rollup-plugin-typescript2": "^0.27.0",
+    "tailwindcss": "^1.2.0",
+    "typescript": "^3.8.3"
+  }
+}

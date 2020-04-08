@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn core:build && yarn plugin:booking:build && yarn plugin:highlight:build && yarn workspace calendair build",
+    "core:dev": "yarn workspace @calendair/core dev",
+    "core:build": "yarn workspace @calendair/core build",
+    "plugin:booking:dev": "yarn workspace @calendair/booking dev",
+    "plugin:booking:build": "yarn workspace @calendair/booking build",
+    "plugin:highlight:dev": "yarn workspace @calendair/highlight dev",
+    "plugin:highlight:build": "yarn workspace @calendair/highlight build"
+  }
+}
