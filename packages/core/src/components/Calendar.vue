@@ -18,11 +18,11 @@ export default defineComponent({
     CursorLeft,
     CursorRight,
     CalendarMonth,
-    BaseCell
+    BaseCell,
   },
 
   props: {
-    options: { default: () => ({}) } as Prop<Options>
+    options: { default: () => ({}) } as Prop<Options>,
   },
 
   setup(props, { emit }) {
@@ -54,16 +54,16 @@ export default defineComponent({
       inShadowSelection,
       isSelected,
       isSelectable,
-      onSelected
+      onSelected,
     } = Selection
 
-    onSelected(sel => emit('select', sel))
+    onSelected((sel) => emit('select', sel))
 
     const pluginCtx = {
       calendar: Calendar,
       rendering: Rendering,
       selection: Selection,
-      theme: Theme
+      theme: Theme,
     }
 
     for (const plugin of options.value.plugins || []) {
@@ -80,6 +80,7 @@ export default defineComponent({
     }
 
     return {
+      Calendar,
       el,
       renderedMonths,
       periodKey,
@@ -97,9 +98,9 @@ export default defineComponent({
       cellRenderers,
       onMouseEnter,
       cellStyleFn,
-      locale: Locale
+      locale: Locale,
     }
-  }
+  },
 })
 </script>
 
@@ -129,6 +130,7 @@ export default defineComponent({
           class="Calendair__monthWrapper"
         >
           <CalendarMonth
+            :calendar-options="Calendar.options"
             :locale="locale"
             :year="period.start.getFullYear()"
             :month="period.start.getMonth()"

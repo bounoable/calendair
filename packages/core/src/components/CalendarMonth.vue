@@ -1,26 +1,65 @@
 <script lang="ts">
-import { defineComponent, computed, Prop } from 'vue'
-import { startAndEndOfMonth, useCalendarMonth } from '../calendar'
+import { defineComponent, computed, Prop, watch, ref } from 'vue'
+import {
+  startAndEndOfMonth,
+  useCalendarMonth,
+  ReadyCalendarOptions,
+} from '../calendar'
 import { useLocale } from '../locale'
+
+interface Props {
+  calendarOptions: ReadyCalendarOptions
+  locale: Locale
+  year: number
+  month: number
+}
 
 export default defineComponent({
   props: {
-    locale: { type: Object, required: true } as Prop<
-      ReturnType<typeof useLocale>
+    calendarOptions: { type: Object, required: true } as Prop<
+      ReadyCalendarOptions
     >,
+    locale: { type: Object, required: true } as Prop<Locale>,
     year: { type: Number, required: true },
-    month: { type: Number, required: true }
+    month: { type: Number, required: true },
   },
 
   setup(props) {
     const period = computed(() => startAndEndOfMonth(props.year, props.month))
-    const { rows } = useCalendarMonth(computed(() => period.value.start))
+    const { rows } = useCalendarMonth(
+      computed(() => period.value.start),
+      computed(() => props.calendarOptions!)
+    )
+
+    function normalizeShortWeekdays(weekdays: string[]) {
+      return weekdays.map(
+        (_, i) =>
+          weekdays[(i + props.calendarOptions!.startWeekOn) % weekdays.length]
+      )
+    }
+
+    const weekdaysShort = ref(
+      // @ts-ignore
+      normalizeShortWeekdays(props.locale!.weekdaysShort)
+    )
+
+    watch(
+      () => props.locale,
+      (locale) => {
+        if (!locale) {
+          return
+        }
+        // @ts-ignore
+        weekdaysShort.value = normalizeShortWeekdays(locale.weekdaysShort)
+      }
+    )
 
     return {
       period,
-      rows
+      rows,
+      weekdaysShort,
     }
-  }
+  },
 })
 </script>
 
@@ -34,7 +73,7 @@ export default defineComponent({
       <div class="CalendairMonth__row">
         <div
           class="CalendairMonth__heading"
-          v-for="weekday of locale.weekdaysShort"
+          v-for="weekday of weekdaysShort"
           :key="weekday"
           v-text="weekday"
         ></div>

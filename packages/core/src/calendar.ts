@@ -4,7 +4,7 @@ import {
   computed,
   ComputedRef,
   onMounted,
-  onBeforeUnmount
+  onBeforeUnmount,
 } from 'vue'
 import { Period, shiftPeriod } from './shared'
 import { ResizeObserver } from '@juggle/resize-observer'
@@ -14,7 +14,7 @@ import {
   subMonths,
   addMonths,
   isBefore,
-  isAfter
+  isAfter,
 } from 'date-fns/esm'
 import { Refable, refNormalize, refNormalizeOptions } from './utils'
 
@@ -38,13 +38,29 @@ export interface ReadyCalendarOptions {
    * The initial shown month.
    */
   initialMonth: Date
+
+  /**
+   * The first day of the week.
+   */
+  startWeekOn: Weekday
+}
+
+export enum Weekday {
+  Sunday,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thurday,
+  Friday,
+  Saturday,
 }
 
 export type CalendarOptions = Partial<ReadyCalendarOptions>
 
 export const defaultOptions: ReadyCalendarOptions = {
   maxVisibleMonths: 12,
-  initialMonth: new Date()
+  initialMonth: new Date(),
+  startWeekOn: Weekday.Sunday,
 }
 
 export function useCalendar(
@@ -71,7 +87,7 @@ export function useCalendar(
       : []
 
     return opts.value.firstMonth || opts.value.lastMonth
-      ? months.filter(month => {
+      ? months.filter((month) => {
           if (
             opts.value.firstMonth &&
             isBefore(month.end, opts.value.firstMonth)
@@ -143,7 +159,8 @@ export function useCalendar(
     visibleMonths,
     renderedMonths,
     cursor,
-    cursorAllowed
+    cursorAllowed,
+    options: opts,
   }
 }
 
@@ -236,7 +253,7 @@ export function useCalendarStyle(
       ] = {
         position,
         width,
-        left
+        left,
       }
     }
 
@@ -244,7 +261,7 @@ export function useCalendarStyle(
   })
 
   return {
-    monthStyles
+    monthStyles,
   }
 }
 
@@ -263,17 +280,20 @@ export function startAndEndOfMonth(year: number, month: number): Period {
 
   return {
     start,
-    end
+    end,
   }
 }
 
-export function useCalendarMonth(firstOfMonth: Ref<Date>) {
+export function useCalendarMonth(
+  firstOfMonth: Ref<Date>,
+  options: Ref<ReadyCalendarOptions>
+) {
   const lastOfMonth = computed(() => endOfMonth(firstOfMonth.value))
 
   const currentMonthDates = computed(() => {
     return eachDayOfInterval({
       start: firstOfMonth.value,
-      end: lastOfMonth.value
+      end: lastOfMonth.value,
     })
   })
 
@@ -293,8 +313,9 @@ export function useCalendarMonth(firstOfMonth: Ref<Date>) {
     const days: CalendarDay[] = []
     const firstOfMonthDay = firstOfMonth.value.getDay()
 
-    for (let i = 0; i < firstOfMonthDay; i++) {
-      const index = prevMonthDates.value.length - (firstOfMonthDay - i)
+    const overflow = (firstOfMonthDay + (7 - options.value.startWeekOn)) % 7
+    for (let i = 0; i < overflow; i++) {
+      const index = prevMonthDates.value.length - (overflow - i)
       const date = prevMonthDates.value[index]
       days.push({ date, isCurrentMonth: false })
     }
@@ -335,7 +356,7 @@ export function useCalendarMonth(firstOfMonth: Ref<Date>) {
     prevMonthDates,
     nextMonthDates,
     days,
-    rows
+    rows,
   }
 }
 

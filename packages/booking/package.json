@@ -14,7 +14,9 @@
   "main": "dist/booking.common.js",
   "browser": "dist/booking.umd.js",
   "unpkg": "dist/booking.umd.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "node scripts/dev.js",
     "build": "vue-cli-service build --target lib --name booking src/index.ts",
@@ -24,28 +26,28 @@
     "@calendair/core": "0.1.0",
     "core-js": "^3.6.4",
     "date-fns": "^2.11.1",
-    "vue": "^3.0.0-alpha.11"
+    "vue": "^3.0.0-rc.4"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
-    "@typescript-eslint/parser": "^2.26.0",
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-plugin-typescript": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "@vue/cli-plugin-babel": "~4.4.6",
+    "@vue/cli-plugin-eslint": "~4.4.6",
+    "@vue/cli-plugin-typescript": "~4.4.6",
+    "@vue/cli-service": "~4.4.6",
     "@vue/compiler-sfc": "^3.0.0-alpha.11",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
-    "eslint": "^6.7.2",
+    "eslint": "^7.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^7.0.0-alpha.0",
     "fs-extra": "^9.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "sass": "^1.26.3",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^9.0.2",
     "tailwindcss": "^1.2.0",
-    "typescript": "~3.8.3",
-    "vue-cli-plugin-vue-next": "^0.0.5"
+    "typescript": "~3.9.7",
+    "vue-cli-plugin-vue-next": "^0.1.3"
   }
 }
