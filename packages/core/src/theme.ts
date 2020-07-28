@@ -36,7 +36,7 @@ export function useTheme(theme: Refable<Theme>) {
 
   return {
     cellStyleFn,
-    cellStyleInterceptors
+    cellStyleInterceptors,
   }
 }
 
@@ -57,12 +57,12 @@ export function useCellState(baseState: Refable<Omit<CellState, 'active'>>) {
   const active = ref(false)
   const state = computed(() => ({
     ...normalizedBaseState.value,
-    active: active.value
+    active: active.value,
   }))
 
   return {
     active,
-    state
+    state,
   }
 }
 
@@ -76,20 +76,20 @@ function getCellStyleFunction(config: CellStyleConfig): CellStyleFunction {
 
     style = {
       ...style,
-      ...config.currentMonth
+      ...config.currentMonth,
     }
 
     if (state.selectable) {
       style = {
         ...style,
-        ...config.selectable
+        ...config.selectable,
       }
     }
 
     if (state.selected) {
       style = {
         ...style,
-        ...config.selected
+        ...config.selected,
       }
       return style
     }
@@ -101,21 +101,21 @@ function getCellStyleFunction(config: CellStyleConfig): CellStyleFunction {
     if (state.inSelection || state.inShadowSelection) {
       style = {
         ...style,
-        ...config.inSelection
+        ...config.inSelection,
       }
     }
 
     if (state.hovered) {
       style = {
         ...style,
-        ...config.hovered
+        ...config.hovered,
       }
     }
 
     if (state.active) {
       style = {
         ...style,
-        ...config.active
+        ...config.active,
       }
     }
 

@@ -129,29 +129,31 @@ export default defineComponent({
           "
           class="Calendair__monthWrapper"
         >
-          <CalendarMonth
-            :calendar-options="Calendar.options"
-            :locale="locale"
-            :year="period.start.getFullYear()"
-            :month="period.start.getMonth()"
-            :selection="selection"
-            @mouseleave="hoveredDate = null"
-          >
-            <template v-slot:cell="{ day }">
-              <BaseCell
-                :day="day"
-                :hovered-date="hoveredDate"
-                :selected="isSelected(day.date)"
-                :in-selection="inSelection(day.date)"
-                :in-shadow-selection="inShadowSelection(day.date)"
-                :selectable="isSelectable(day.date)"
-                :cell-style-fn="cellStyleFn"
-                :renderers="cellRenderers"
-                @select="day.isCurrentMonth && selectDate(day.date)"
-                @mouseenter="onMouseEnter(day)"
-              />
-            </template>
-          </CalendarMonth>
+          <keep-alive>
+            <CalendarMonth
+              :calendar-options="Calendar.options"
+              :locale="locale"
+              :year="period.start.getFullYear()"
+              :month="period.start.getMonth()"
+              :selection="selection"
+              @mouseleave="hoveredDate = null"
+            >
+              <template v-slot:cell="{ day }">
+                <BaseCell
+                  :day="day"
+                  :hovered-date="hoveredDate"
+                  :selected="isSelected(day.date)"
+                  :in-selection="inSelection(day.date)"
+                  :in-shadow-selection="inShadowSelection(day.date)"
+                  :selectable="isSelectable(day.date)"
+                  :cell-style-fn="cellStyleFn"
+                  :renderers="cellRenderers"
+                  @select="day.isCurrentMonth && selectDate(day.date)"
+                  @mouseenter="onMouseEnter(day)"
+                />
+              </template>
+            </CalendarMonth>
+          </keep-alive>
         </div>
       </template>
     </transition-group>

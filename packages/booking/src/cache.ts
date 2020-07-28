@@ -24,12 +24,13 @@ export function useCache(options: Ref<Options>): Cache {
 
   const forget = (key: string) => delete cache.value[key]
   const clear = () => (cache.value = {})
-  const get = <T extends any>(key: string) => cache.value[key] as T | undefined
+  const get = <T extends any = any>(key: string) =>
+    cache.value[key] as T | undefined
 
   return {
     remember,
     forget,
     clear,
-    get
+    get,
   }
 }

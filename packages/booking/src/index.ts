@@ -6,20 +6,20 @@ import {
   Refable,
   refNormalize,
   normalizeDateOrDateRanges,
-  InstallContext
+  InstallContext,
 } from '@calendair/core'
 import {
   trimPeriod,
   isFullyBlockedDate,
   isCheckInDay,
   isCheckOutDay,
-  isCheckInOutDay
+  isCheckInOutDay,
 } from './utils'
 import { startOfDay } from 'date-fns/esm'
 import {
   validateSelectionStart,
   validateSelectionEnd,
-  isSelectableWeekday
+  isSelectableWeekday,
 } from './validate'
 import { useCache, Cache } from './cache'
 
@@ -30,16 +30,16 @@ export default function BookingPlugin(options?: Refable<Options>) {
     return {
       ...normalized.value,
       blocked:
-        normalized.value.blocked?.map(period => [
+        normalized.value.blocked?.map((period) => [
           startOfDay(period[0]),
-          startOfDay(period[1])
-        ]) || []
+          startOfDay(period[1]),
+        ]) || [],
     } as Options
   })
 
   const cache = useCache(opts)
 
-  const plugin: Plugin = ctx => {
+  const plugin: Plugin = (ctx) => {
     enableDisableDates(ctx, opts)
     patchTheme(ctx, opts, cache)
     renderCheckInOutDays(ctx, opts, cache)
@@ -59,25 +59,26 @@ function enableDisableDates(ctx: InstallContext, options: Ref<Options>) {
 
   watch(
     enabledDates,
-    enabled => {
-      ctx.selection.enabledDates.value = enabled
-    },
+    (enabled) => (ctx.selection.enabledDates.value = enabled),
     { immediate: true }
   )
 
   watch(
     disabledDates,
-    disabled => {
-      ctx.selection.disabledDates.value = disabled.concat(
-        options.value.blocked?.map(period => trimPeriod(period, 1)) || []
-      )
-    },
+    (disabled) =>
+      (ctx.selection.disabledDates.value = disabled.concat(
+        options.value.blocked?.map((period) => trimPeriod(period, 1)) || []
+      )),
     { immediate: true }
   )
 }
 
 function patchTheme(ctx: InstallContext, options: Ref<Options>, cache: Cache) {
-  ctx.theme.cellStyleInterceptors.value.push((day, state, prev) => {
+  ctx.theme.cellStyleInterceptors.value.push((day, _, prev) => {
+    if (!day.isCurrentMonth) {
+      return prev
+    }
+
     const fullyBlocked = cache.remember(
       `isFullyBlockedDate:${day.date.getTime()}`,
       () => isFullyBlockedDate(day.date, options.value)
@@ -92,7 +93,7 @@ function patchTheme(ctx: InstallContext, options: Ref<Options>, cache: Cache) {
       zIndex: '1',
       opacity: '1',
       color: '#fc8181',
-      borderColor: '#feb2b2'
+      borderColor: '#feb2b2',
     }
   })
 }

@@ -5,6 +5,7 @@ import {
   ComputedRef,
   onMounted,
   onBeforeUnmount,
+  watch,
 } from 'vue'
 import { Period, shiftPeriod } from './shared'
 import { ResizeObserver } from '@juggle/resize-observer'
@@ -81,7 +82,13 @@ export function useCalendar(
     _maxVisibleMonths(mainMonth.value, opts.value.maxVisibleMonths)
   )
 
+  const recompute = ref(false)
+
   const visibleMonths = computed(() => {
+    if (recompute.value) {
+      recompute.value = false
+    }
+
     const months = calendarEl.value
       ? _visibleMonths(calendarEl.value, maxVisibleMonths.value)
       : []
@@ -108,9 +115,7 @@ export function useCalendar(
   }) as ComputedRef<Period[]>
 
   // Force recomputation of visibleMonths by reassigning calendarEl
-  const resizeObserver = new ResizeObserver(
-    () => (calendarEl.value = calendarEl.value)
-  )
+  const resizeObserver = new ResizeObserver(() => (recompute.value = true))
 
   onMounted(() => {
     if (!calendarEl.value) {
