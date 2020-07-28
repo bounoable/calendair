@@ -20,15 +20,15 @@ npm install calendair --save
 ## Usage
 
 ```ts
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { Calendair, Options } from 'calendair'
 
 export default {
   components: { Calendair },
 
-  data() {
-    const options = ref<Options>({
-      
+  setup() {
+    const options: Options = reactive({
+      /* Calendar options */
     })
 
     return { options }
@@ -37,7 +37,7 @@ export default {
 ```
 
 ```html
-<Calendar :options="options"/>
+<Calendair :options="options"/>
 ```
 
 ## Booking Plugin
