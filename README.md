@@ -42,7 +42,7 @@ export default {
 
 ## Booking Plugin
 
-The Booking Plugin adds functionality that is needed for booking related apps. It handles blocked periods, minimum stay, check-in / check-out days & booking gaps.
+The Booking Plugin adds functionality that is needed for booking / reservation related apps. It handles blocked periods, minimum stay, check-in / check-out days & booking gaps.
 
 ### Install
 
@@ -50,8 +50,11 @@ The Booking Plugin adds functionality that is needed for booking related apps. I
 npm install calendair @calendair/booking --save
 ```
 
+### Use
+
 ```html
 <script>
+import { reactive } from 'vue'
 import { Calendair, Options } from 'calendair'
 import BookingPlugin from '@calendair/booking'
 
@@ -59,7 +62,7 @@ export default {
   components: { Calendair },
 
   setup() {
-    const options: Options = {
+    const options: Options = reactive({
       plugins: [
         BookingPlugin({
           /**
@@ -109,7 +112,7 @@ export default {
           allowGapFill?: boolean
         })
       ]
-    }
+    })
 
     return { options }
   }
@@ -117,6 +120,55 @@ export default {
 </script>
 
 <template>
-  <Calendar :options="options"/>
+  <Calendair :options="options"/>
+</template>
+```
+
+## Highlight plugin
+
+The highlight plugin allows you to highlight certain dates in the calendar.
+You can either highlight a static array of dates or provide a function to determine if a date should be highlighted.
+
+### Install
+
+```sh
+npm install calendair @calendair/highlight --save
+```
+
+### Use
+
+```html
+<script>
+import { reactive } from 'vue'
+import { Calendair, Options } from 'calendair'
+import HighlightPlugin from '@calendair/highlight'
+
+export default {
+  components: { Calendair },
+
+  setup() {
+    const options: Options = reactive({
+      plugins: [
+        HighlightPlugin({
+          /**
+           * The highlighted dates.
+           */
+          highlights?: Date[]|((date: Date) => boolean)
+
+          /**
+           * CSS style of the highlighted dates.
+           */
+          style?: Partial<CSSStyleDeclaration>
+        }),
+      ],
+    })
+
+    return { options }
+  }
+}
+</script>
+
+<template>
+  <Calendair :options="options">
 </template>
 ```
