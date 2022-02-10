@@ -54,7 +54,7 @@
     "execa": "^4.0.0",
     "fibers": "^5.0.0",
     "fs-extra": "^9.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "rollup": "^2.3.3",
